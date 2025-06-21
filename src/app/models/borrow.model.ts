@@ -9,6 +9,11 @@ const borrowSchenma = new Schema<IBorrow>({
     },
     quantity: { type: Number, required: true },
     dueDate: { type: Date, required: true }
-})
+},
+{
+    timestamps: true,
+    versionKey: false
+}
+)
 
 export const Borrow = mongoose.model("Borrow", borrowSchenma)

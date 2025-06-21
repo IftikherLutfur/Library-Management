@@ -1,7 +1,0 @@
-1. Create Book ---> use pre middleware✅
-2. Get All Books ---> use filter, sort, limit etc.✅
-3. Get book by id ---> use instance method ✅
-4. Update Book ---> use pre middleware✅
-5. Delete book ---> use post middleware
-6. Borrow book ---> use static  middleware
-7. Borrowed Books summary ---> use aggregation pipeline 
