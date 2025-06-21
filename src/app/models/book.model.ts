@@ -17,8 +17,9 @@ const bookSchema = new Schema <IBookDocument> ({
   copies: { type: Number, required: true },
   available: { type: Boolean, required: true }
 },
-{timestamps: true,
-versionKey: false }
+{
+  timestamps: true,
+ versionKey: false }
 
 )
 

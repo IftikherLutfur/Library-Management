@@ -42,7 +42,7 @@ BookRouter.get("/", async (req: Request, res: Response) => {
 
 BookRouter.get("/:bookId", async (req: Request, res: Response) => {
     const bookId = req.params.bookId;
-    const data = await Book.findById({_id: bookId})
+    const data = await Book.findById(bookId) //static
 
     res.status(200).json({
         success: true,
@@ -51,7 +51,7 @@ BookRouter.get("/:bookId", async (req: Request, res: Response) => {
     });
 });
 
-BookRouter.patch("/update/:bookId", async (req: Request, res: Response) => {
+BookRouter.patch("/:bookId", async (req: Request, res: Response) => {
     try {
         const bookId = req.params.bookId;
         const updatedBody = req.body;
