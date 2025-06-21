@@ -1,0 +1,87 @@
+import express, { Request, Response } from "express"
+import { Borrow } from "../models/borrow.model";
+import { Book } from "../models/book.model";
+
+export const borrowRouter = express.Router();
+
+// borrowRouter.post("/", async (req: Request, res: Response)=>{
+//     const body = req.body;
+//     const borrows = await Borrow.find().populate("book")
+//        const borrowCopies = borrows.map((borrow) => {
+//       const book = borrow.book as any;
+//       console.log(`Book Title: ${book.title}, Copies: ${book.copies}`); // 👈 Console logging
+//       return book.copies;
+//     });
+    
+
+//     const data = await Borrow.create(body);
+
+//     res.status(200).json({
+//         success: true,
+//         message: "Book borrowed successfully",
+//         data
+//     })
+// })
+
+borrowRouter.post("/", async (req: Request, res: Response)=>{
+    try {
+        const {book: bookId, quantity, dueDate} = req.body;
+
+        const book = await Book.findById(bookId)
+        if(!book){
+            return res.status(404).json({
+                success: false,
+                message: "Book not found"
+            })
+        }
+
+        if(book.copies < quantity){
+            if(book.copies === 0 && book.available !== false){
+                book.available = false;
+                await book.save();
+            }
+        return res.status(400).json({
+            succes: true,
+            message: "Not enough copies available"
+        })
+        }
+
+                book.copies = book.copies - quantity;
+
+                if(book.copies === 0){
+                    book.available = false;
+                }
+
+                await book.save()
+
+                const data = await Borrow.create({
+                    book: bookId,
+                    quantity,
+                    dueDate
+                })
+
+                res.status(200).json({
+                    success: true,
+                    message: "Book borrowed successfully",
+                    data        
+                })
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
+    }
+})
+
+
+
+borrowRouter.get("/", async (req: Request, res: Response)=>{
+    const borrows = await Borrow.find().populate("book")
+
+    res.status(200).json({
+        success: true,
+        message: "Successfully get",
+        borrows
+    })
+})

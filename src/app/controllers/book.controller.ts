@@ -3,7 +3,7 @@ import { Book } from "../models/book.model";
 export const BookRouter = express.Router();
 
 
-BookRouter.post('/create-book', async (req: Request, res: Response) => {
+BookRouter.post('/', async (req: Request, res: Response) => {
     const body = req.body;
     // 
     const data = await Book.create(body);
@@ -18,30 +18,8 @@ BookRouter.post('/create-book', async (req: Request, res: Response) => {
 
 BookRouter.get("/", async (req: Request, res: Response) => {
     // static
-    const books = await Book.find()
-    res.status(200).json({
-        success: true,
-        message: "Books retrieved successfully",
-        data: books
-    })
-})
-
-
-BookRouter.get("/:bookId", async (req: Request, res: Response) => {
-    const bookId = req.params.bookId;
-    const data = await Book.findById({_id: bookId})
-
-    res.status(200).json({
-        success: true,
-        message: "Book retrieved successfully",
-        data
-    });
-});
-
-BookRouter.get("/filtering", async (req: Request, res: Response) => {
-    // static
     // Query parameters gulo recive korechi url request theke
-    const { filter, sortBy = "title", sort = "asc", limit = 10 } = req.query;
+    const { filter, sortBy = "title", sort, limit } = req.query;
 
     // query empty object declare korechi jodi filter na kori tahole all data dibe r filter korle condition onujayi data dibe
     const query: any = {};
@@ -62,18 +40,16 @@ BookRouter.get("/filtering", async (req: Request, res: Response) => {
     })
 })
 
-// BookRouter.get("/:bookId", async (req: Request, res: Response)=>{
-//     const idOfBook = req.params.bookId;
+BookRouter.get("/:bookId", async (req: Request, res: Response) => {
+    const bookId = req.params.bookId;
+    const data = await Book.findById({_id: bookId})
 
-
-//     const book = await Book.findById(idOfBook);
-
-//     res.status(200).json({
-//         success: true,
-//         message: "Book retrieved successfully",
-//         data: book 
-//     })
-// })
+    res.status(200).json({
+        success: true,
+        message: "Book retrieved successfully",
+        data
+    });
+});
 
 BookRouter.patch("/update/:bookId", async (req: Request, res: Response) => {
     try {

@@ -16,7 +16,7 @@ exports.BookRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const book_model_1 = require("../models/book.model");
 exports.BookRouter = express_1.default.Router();
-exports.BookRouter.post('/create-book', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.BookRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
     // 
     const data = yield book_model_1.Book.create(body);
@@ -27,28 +27,10 @@ exports.BookRouter.post('/create-book', (req, res) => __awaiter(void 0, void 0, 
     });
 }));
 exports.BookRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // static
-    const books = yield book_model_1.Book.find();
-    res.status(200).json({
-        success: true,
-        message: "Books retrieved successfully",
-        data: books
-    });
-}));
-exports.BookRouter.get("/:bookId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const bookId = req.params.bookId;
-    const data = yield book_model_1.Book.findById({ _id: bookId });
-    res.status(200).json({
-        success: true,
-        message: "Book retrieved successfully",
-        data
-    });
-}));
-exports.BookRouter.get("/filtering", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
     // static
     // Query parameters gulo recive korechi url request theke
-    const { filter, sortBy = "title", sort = "asc", limit = 10 } = req.query;
+    const { filter, sortBy = "title", sort, limit } = req.query;
     // query empty object declare korechi jodi filter na kori tahole all data dibe r filter korle condition onujayi data dibe
     const query = {};
     if (filter) {
@@ -65,15 +47,15 @@ exports.BookRouter.get("/filtering", (req, res) => __awaiter(void 0, void 0, voi
         data
     });
 }));
-// BookRouter.get("/:bookId", async (req: Request, res: Response)=>{
-//     const idOfBook = req.params.bookId;
-//     const book = await Book.findById(idOfBook);
-//     res.status(200).json({
-//         success: true,
-//         message: "Book retrieved successfully",
-//         data: book 
-//     })
-// })
+exports.BookRouter.get("/:bookId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const bookId = req.params.bookId;
+    const data = yield book_model_1.Book.findById({ _id: bookId });
+    res.status(200).json({
+        success: true,
+        message: "Book retrieved successfully",
+        data
+    });
+}));
 exports.BookRouter.patch("/update/:bookId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookId = req.params.bookId;

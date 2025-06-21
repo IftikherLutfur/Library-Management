@@ -29,9 +29,9 @@ bookSchema.pre("save", async function(next){
   next()
 })
 
-bookSchema.methods.getSummary = function () {
-  console.log(`${this.title} by ${this.author}`);
-};
+// bookSchema.methods.getSummary = function () {
+//   console.log(`${this.title} by ${this.author}`);
+// };
 
 bookSchema.pre("findOneAndUpdate", function(next){
    this.set({updatedAt: new Date()})
