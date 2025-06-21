@@ -4,25 +4,6 @@ import { Book } from "../models/book.model";
 
 export const borrowRouter = express.Router();
 
-// borrowRouter.post("/", async (req: Request, res: Response)=>{
-//     const body = req.body;
-//     const borrows = await Borrow.find().populate("book")
-//        const borrowCopies = borrows.map((borrow) => {
-//       const book = borrow.book as any;
-//       console.log(`Book Title: ${book.title}, Copies: ${book.copies}`); // 👈 Console logging
-//       return book.copies;
-//     });
-
-
-//     const data = await Borrow.create(body);
-
-//     res.status(200).json({
-//         success: true,
-//         message: "Book borrowed successfully",
-//         data
-//     })
-// })
-
 borrowRouter.post("/", async (req: Request, res: Response) => {
     try {
         const { book: bookId, quantity, dueDate } = req.body;
