@@ -48,7 +48,7 @@ exports.borrowRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, f
                 yield book.save();
             }
             return res.status(400).json({
-                succes: true,
+                succes: false,
                 message: "Not enough copies available"
             });
         }
@@ -76,10 +76,38 @@ exports.borrowRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 exports.borrowRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const borrows = yield borrow_model_1.Borrow.find().populate("book");
+    // const data = await Borrow.find().populate("book", "title isbn")
+    //
+    const data = yield borrow_model_1.Borrow.aggregate([
+        {
+            $group: {
+                _id: "$book",
+                totalQuantity: { $sum: "$quantity" }
+            }
+        },
+        {
+            $lookup: {
+                from: "books",
+                localField: "_id",
+                foreignField: "_id",
+                as: "bookInfo"
+            }
+        },
+        { $unwind: "$bookInfo" },
+        {
+            $project: {
+                _id: 0,
+                book: {
+                    title: "$bookInfo.title",
+                    isbn: "$bookInfo.isbn"
+                },
+                totalQuantity: 1
+            }
+        }
+    ]);
     res.status(200).json({
         success: true,
         message: "Successfully get",
-        borrows
+        data
     });
 }));

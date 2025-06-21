@@ -43,5 +43,8 @@ const borrowSchenma = new mongoose_1.Schema({
     },
     quantity: { type: Number, required: true },
     dueDate: { type: Date, required: true }
+}, {
+    timestamps: true,
+    versionKey: false
 });
 exports.Borrow = mongoose_1.default.model("Borrow", borrowSchenma);
