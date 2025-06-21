@@ -49,14 +49,14 @@ exports.BookRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, func
 }));
 exports.BookRouter.get("/:bookId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const bookId = req.params.bookId;
-    const data = yield book_model_1.Book.findById({ _id: bookId });
+    const data = yield book_model_1.Book.findById(bookId); //static
     res.status(200).json({
         success: true,
         message: "Book retrieved successfully",
         data
     });
 }));
-exports.BookRouter.patch("/update/:bookId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.BookRouter.patch("/:bookId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookId = req.params.bookId;
         const updatedBody = req.body;

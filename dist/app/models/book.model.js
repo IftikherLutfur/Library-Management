@@ -56,8 +56,10 @@ const bookSchema = new mongoose_1.Schema({
     description: { type: String, required: true },
     copies: { type: Number, required: true },
     available: { type: Boolean, required: true }
-}, { timestamps: true,
-    versionKey: false });
+}, {
+    timestamps: true,
+    versionKey: false
+});
 bookSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         this.title = yield this.title.trim();

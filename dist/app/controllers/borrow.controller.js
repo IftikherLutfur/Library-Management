@@ -17,21 +17,6 @@ const express_1 = __importDefault(require("express"));
 const borrow_model_1 = require("../models/borrow.model");
 const book_model_1 = require("../models/book.model");
 exports.borrowRouter = express_1.default.Router();
-// borrowRouter.post("/", async (req: Request, res: Response)=>{
-//     const body = req.body;
-//     const borrows = await Borrow.find().populate("book")
-//        const borrowCopies = borrows.map((borrow) => {
-//       const book = borrow.book as any;
-//       console.log(`Book Title: ${book.title}, Copies: ${book.copies}`); // 👈 Console logging
-//       return book.copies;
-//     });
-//     const data = await Borrow.create(body);
-//     res.status(200).json({
-//         success: true,
-//         message: "Book borrowed successfully",
-//         data
-//     })
-// })
 exports.borrowRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { book: bookId, quantity, dueDate } = req.body;
