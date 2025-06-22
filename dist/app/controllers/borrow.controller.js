@@ -61,8 +61,6 @@ exports.borrowRouter.post("/", (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 exports.borrowRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const data = await Borrow.find().populate("book", "title isbn")
-    //
     const data = yield borrow_model_1.Borrow.aggregate([
         {
             $group: {

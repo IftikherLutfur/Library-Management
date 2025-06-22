@@ -54,12 +54,7 @@ borrowRouter.post("/", async (req: Request, res: Response) => {
     }
 })
 
-
 borrowRouter.get("/", async (req: Request, res: Response) => {
-
-    // const data = await Borrow.find().populate("book", "title isbn")
-
-    //
 
     const data = await Borrow.aggregate([
         {
@@ -96,7 +91,4 @@ borrowRouter.get("/", async (req: Request, res: Response) => {
         message: "Successfully get",
         data
     })
-
-
-
 })

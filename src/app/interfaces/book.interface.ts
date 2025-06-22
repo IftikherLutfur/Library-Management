@@ -8,7 +8,3 @@ export interface IBook{
  available: boolean;
 }
 
-export interface IBookDocument extends IBook {
-    getSummary(): string;
-} 
-

@@ -1,9 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import { IBook, IBookDocument } from "../interfaces/book.interface";
-import { timeStamp } from "console";
-import { create } from "domain";
+import { IBook } from "../interfaces/book.interface";
 
-const bookSchema = new Schema <IBookDocument> ({
+
+const bookSchema = new Schema <IBook> ({
   title: { type: String, required: true },
   author: { type: String, required: true },
   genre: { type: String, required: true, uppercase: true,
@@ -30,13 +29,15 @@ bookSchema.pre("save", async function(next){
   next()
 })
 
-// bookSchema.methods.getSummary = function () {
-//   console.log(`${this.title} by ${this.author}`);
-// };
 
 bookSchema.pre("findOneAndUpdate", function(next){
    this.set({updatedAt: new Date()})
    next()
 })
 
-export const Book = mongoose.model<IBookDocument>("Book", bookSchema);
+
+bookSchema.post("findOneAndDelete", function(doc){
+  console.log(`${doc._id} has been deleted`)
+})
+
+export const Book = mongoose.model<IBook>("Book", bookSchema);

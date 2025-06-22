@@ -68,11 +68,11 @@ bookSchema.pre("save", function (next) {
         next();
     });
 });
-// bookSchema.methods.getSummary = function () {
-//   console.log(`${this.title} by ${this.author}`);
-// };
 bookSchema.pre("findOneAndUpdate", function (next) {
     this.set({ updatedAt: new Date() });
     next();
+});
+bookSchema.post("findOneAndDelete", function (doc) {
+    console.log(`${doc._id} has been deleted`);
 });
 exports.Book = mongoose_1.default.model("Book", bookSchema);
