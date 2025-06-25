@@ -15,7 +15,7 @@ BookRouter.post('/', async (req: Request, res: Response) => {
 
 BookRouter.get("/", async (req: Request, res: Response) => {
     
-    const { filter, sortBy = "title", sort, limit } = req.query;
+    const { filter, sortBy = "title", sort, limit = "10" } = req.query;
     const query: any = {};
     if (filter) {
         query.genre = filter;

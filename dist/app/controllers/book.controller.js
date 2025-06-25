@@ -27,7 +27,7 @@ exports.BookRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
 }));
 exports.BookRouter.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b;
-    const { filter, sortBy = "title", sort, limit } = req.query;
+    const { filter, sortBy = "title", sort, limit = "10" } = req.query;
     const query = {};
     if (filter) {
         query.genre = filter;
