@@ -50,6 +50,39 @@ exports.BookRouter.get("/:bookId", (req, res) => __awaiter(void 0, void 0, void 
         data
     });
 }));
+// BookRouter.patch("/edit-book/:bookId", async (req: Request, res: Response) => {
+//   try {
+//     const bookId = req.params.bookId;
+//     const updatedData = req.body;
+//     // Business logic: If copies === 0, mark as unavailable
+//     if (updatedData.copies === 0) {
+//       updatedData.available = false;
+//     }
+//     // Update the book
+//     const data = await Book.findByIdAndUpdate(
+//       bookId, // ✅ only ID
+//       updatedData,
+//       { new: true }
+//     );
+//     if (!data) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Book not found"
+//       });
+//     }
+//     res.status(200).json({
+//       success: true,
+//       message: "Book updated successfully",
+//       data
+//     });
+//   } catch (error) {
+//     res.status(400).json({
+//       success: false,
+//       message: "Book update failed",
+//       error
+//     });
+//   }
+// });
 exports.BookRouter.patch("/:bookId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const bookId = req.params.bookId;
