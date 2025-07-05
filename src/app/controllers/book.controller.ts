@@ -4,7 +4,7 @@ export const BookRouter = express.Router();
 
 
 BookRouter.post('/', async (req: Request, res: Response) => {
-    const body = req.body; 
+    const body = req.body;
     const data = await Book.create(body);
     res.status(200).json({
         success: true,
@@ -14,7 +14,7 @@ BookRouter.post('/', async (req: Request, res: Response) => {
 })
 
 BookRouter.get("/", async (req: Request, res: Response) => {
-    
+
     const { filter, sortBy = "title", sort, limit = "10" } = req.query;
     const query: any = {};
     if (filter) {
@@ -33,7 +33,7 @@ BookRouter.get("/", async (req: Request, res: Response) => {
 
 BookRouter.get("/:bookId", async (req: Request, res: Response) => {
     const bookId = req.params.bookId;
-    const data = await Book.findById(bookId) 
+    const data = await Book.findById(bookId)
 
     res.status(200).json({
         success: true,
@@ -41,6 +41,49 @@ BookRouter.get("/:bookId", async (req: Request, res: Response) => {
         data
     });
 });
+
+
+
+// BookRouter.patch("/edit-book/:bookId", async (req: Request, res: Response) => {
+//   try {
+//     const bookId = req.params.bookId;
+//     const updatedData = req.body;
+
+//     // Business logic: If copies === 0, mark as unavailable
+//     if (updatedData.copies === 0) {
+//       updatedData.available = false;
+//     }
+
+//     // Update the book
+//     const data = await Book.findByIdAndUpdate(
+//       bookId, // ✅ only ID
+//       updatedData,
+//       { new: true }
+//     );
+
+//     if (!data) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Book not found"
+//       });
+//     }
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Book updated successfully",
+//       data
+//     });
+
+//   } catch (error) {
+//     res.status(400).json({
+//       success: false,
+//       message: "Book update failed",
+//       error
+//     });
+//   }
+// });
+
+
 
 BookRouter.patch("/:bookId", async (req: Request, res: Response) => {
     try {
@@ -74,21 +117,21 @@ BookRouter.delete("/:bookId", async (req: Request, res: Response) => {
     const bookId = req.params.bookId;
 
     const book = await Book.findOneAndDelete({ _id: bookId })
-    if(!book){
+    if (!book) {
         res.status(404).json({
             success: false,
             message: "The book not found"
         })
     }
-    else{
+    else {
 
         res.status(200).json({
             success: true,
             message: "deleted successfully",
             data: null
-            })
+        })
     }
 
-    
+
 })
 
