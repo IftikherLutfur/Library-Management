@@ -14,22 +14,39 @@ BookRouter.post('/', async (req: Request, res: Response) => {
 })
 
 BookRouter.get("/", async (req: Request, res: Response) => {
+try {
+    const { filter, sortBy = "title", sort = "asc", limit = "10", page = "1" } = req.query;
 
-    const { filter, sortBy = "title", sort, limit = "10" } = req.query;
     const query: any = {};
     if (filter) {
-        query.genre = filter;
+      query.genre = filter;
     }
-    const sortOption: any = {};
-    sortOption[sortBy as string] = sort === "asc" ? 1 : -1 // 1 & -1 diye ascendin r dsc bujhiyechi r sort ta jehetu title diye kortechi tai sortBy ta string
 
-    const data = await Book?.find(query)?.sort(sortOption)?.limit(Number(limit))
+    const limitNum = limit === "all" ? 0 : parseInt(limit as string);
+    const pageNum = parseInt(page as string);
+    const skip = (pageNum - 1) * limitNum;
+
+    const sortOption: any = {};
+    sortOption[sortBy as string] = sort === "asc" ? 1 : -1;
+
+    const data = await Book.find(query).sort(sortOption).skip(skip).limit(limitNum);
+    const total = await Book.countDocuments(query);
+
     res.status(200).json({
-        success: true,
-        message: "Books retrieved successfully",
-        data
-    })
-})
+      success: true,
+      message: "Books retrieved successfully",
+      data,
+      meta: {
+        total,
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil(total / limitNum),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Something went wrong" });
+  }
+});
 
 BookRouter.get("/:bookId", async (req: Request, res: Response) => {
     const bookId = req.params.bookId;
